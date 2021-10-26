@@ -1,0 +1,65 @@
+<h1>Register New User</h1>
+<!-- Alerts -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+    </symbol>
+</svg>
+<div class="alert alert-success alert-dismissible fade show" role="alert" [ngClass]="messageClass" *ngIf="messageClass">
+    <strong>{{message}}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<!-- Html Form -->
+<form (ngSubmit)="registerUser()" [formGroup]="form">
+    <!-- UserName Input -->
+    <div class="form-group mb-3">
+        <label for="username"> Enter UserName </label>
+        <input type="text" formControlName="username" min="5" max="15" [ngClass]="{'is-invalid':submitted && f.username.errors}" class="form-control">
+        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div *ngIf="f.username.errors.required">
+                username Is Required!
+            </div>
+            <div *ngIf="f.username.errors.minlength || f.username.errors.maxlength">
+                Username Must Be 3 Characters and Less then 15 Characters
+            </div>
+            <div *ngIf="f.username.errors?.validateUsername">
+                Username Does Not Have Any Specila Charcter
+            </div>
+        </div>
+    </div>
+    <!-- Email Input -->
+    <div class="form-group mb-3">
+        <label for="email"> Enter Email </label>
+        <input type="email" formControlName="email"  [ngClass]="{'is-invalid':submitted && f.email.errors}" class="form-control">
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">
+                Email Is Required!
+            </div>
+            <div *ngIf="f.email.errors?.minlength || f.email.errors?.maxlength">
+                Email Must Be 7 Characters and Less then 30 Characters
+            </div>
+            <div *ngIf="f.email.errors?.validateEmail">
+                Please Enter A Valid Email
+            </div>
+        </div>
+    </div>
+    <!-- Password Input -->
+    <div class="form-group mb-3">
+        <label for="password"> Enter Password </label>
+        <input type="password" formControlName="password"  [ngClass]="{'is-invalid':submitted && f.password.errors}" class="form-control">
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">
+                Password Is Required!
+            </div>
+            <div *ngIf="f.password.errors.minlength || f.password.errors.maxlength">
+                Password Must Be 5 Characters and Less then 15 Characters
+            </div>
+            <div *ngIf="f.password.errors?.validatePassword">
+                Password must have at least One Uppercase letter One Special Character and One Number!
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-success btn-lg mt-3">Register</button>
+    </div>
+</form>    

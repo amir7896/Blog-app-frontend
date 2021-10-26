@@ -1,0 +1,21 @@
+<div class="container mt-3">
+    <h2 class="text-primary">User Profile</h2>
+    <br>
+    <!-- User Table -->
+    <table class="table  table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="data">
+            <td>{{data.User._id}}</td>
+            <td >{{data.User.username}}</td>
+            <td>{{data.User.email}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>

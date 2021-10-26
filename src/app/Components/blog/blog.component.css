@@ -1,0 +1,27 @@
+.dropdown:hover .dropdown-menu{
+    display: block;
+}
+.dropdown1:hover .dropdown-menu1{
+    display: block;
+}
+#delbtn{
+    margin-left: 5px;
+}
+/* card Header Style */
+.card-header{
+    background-color: rgb(83, 88, 94);
+    color: white;
+}
+.card-footer{
+    background-color: rgb(224, 220, 220);
+    /* color: white; */
+    display: block;
+}
+/* Reload Button */
+#reloadbtn{
+    margin-left: 5px;
+}
+.list-group .list-group-item{
+    border: none;
+  
+}

@@ -1,0 +1,127 @@
+<h3 class="text-success">Blog Feed</h3>
+
+<!-- Alerts -->
+<div class="conatainer mt-2">
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+    </svg>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" [ngClass]="messageClass" *ngIf="messageClass ">
+        <strong>{{message}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+</div>
+<!-- Blog Page -->
+<button type="button" class="btn btn-success" *ngIf="!newPost" (click)="blogPost()" >
+  <i class="bi bi-plus-circle"></i> &nbsp; New Post
+</button>
+<button id="reloadbtn" [disabled]="loadingBlogs" type="button" class="btn btn-dark ml-4" *ngIf="!newPost" (click)="reloadBlogs()">
+  <i class="bi bi-arrow-clockwise" style="font-size: 1.2rem;"></i> &nbsp;Reload
+</button>
+
+<!-- Add Blog Form -->
+<div class="container" *ngIf="newPost">
+  <form [formGroup]="form"  (ngSubmit)="onBlogSubmit()" >
+    <!-- For Title -->
+    <div class="form-group mb-3">
+      <label for="title"> Enter Title </label>
+      <input type="text" formControlName="title" min="5" max="15" placeholder="Title"
+        [ngClass]="{'is-invalid':submitted && f.title.errors}" class="form-control">
+      <div *ngIf="submitted && f.title.errors" class="invalid-feedback">
+          <div *ngIf="f.title.errors.required">
+            Title Is Required!
+          </div>
+          <div *ngIf="f.title.errors.minlength || f.title.errors.maxlength">
+              Title Must Be 5 Characters and Less then 50 Characters
+          </div>
+          <div *ngIf="f.title.errors?.alpahNumericValidation">
+            Title Does Not Have Any Special Charcter
+          </div>
+      </div>
+  </div>
+  <!-- For Body -->
+  <div class="form-group mb-3">
+    <label for="body"> Enter Body </label>
+    <textarea name="body" id="" cols="20" rows="6"formControlName="body" min="5" max="15" placeholder="Body"
+      [ngClass]="{'is-invalid':submitted && f.title.errors}" class="form-control"></textarea>
+    <!-- <input type="text" formControlName="body" min="5" max="15" [ngClass]="{'is-invalid':submitted && f.title.errors}" class="form-control"> -->
+    <div *ngIf="submitted && f.body.errors" class="invalid-feedback">
+      <div *ngIf="f.body.errors.required">
+            Title Is Required!
+      </div>
+        <div *ngIf="f.body.errors.minlength || f.body.errors.maxlength">
+            Title Must Be 5 Characters and Less then 500 Characters
+        </div>
+    </div>
+  </div>
+    <button  [disabled]="processing" class="btn btn-success">Submit </button>
+  </form>
+  <button class="btn btn-warning mt-2" (click)="goBack()">Go Back</button>
+</div>
+<!-- Card -->
+<div *ngIf="!newPost">
+    <div class="card card-primary mt-5" *ngFor="let blog of Allblogs">
+        <div class="card-header" >
+            <h3 class="card-title">{{blog.title}}</h3>
+        </div>
+        <div class="card-body">
+           {{blog.body}}
+        </div><br>
+        <div class="card-footer">
+            <p><strong>Posted By:</strong>{{blog.createdBy}}</p>
+            <p><strong>Date: </strong>{{blog.createdAt | date : 'MMM-dd-yyyy - h:mm a'}}</p>
+            <div class="col-6">
+            </div>
+            <div >
+                <p *ngIf="username.User.username ===  blog.createdBy"><strong>Likes: </strong> {{blog.likes}}</p>
+                <p *ngIf="username.User.username ===  blog.createdBy"><strong>Dislikes:</strong> {{blog.dislikes}}</p>
+            </div>
+            <div *ngIf="username.User.username ===  blog.createdBy" >
+              <a ><button type="button" class="btn btn-sm btn-info"><i class="bi bi-pencil-square"></i> &nbsp; Edit</button></a>
+              <a ><button type="button" class="btn btn-sm btn-danger" id="delbtn"> <i class="bi bi-trash"></i> &nbsp; Delete</button></a>
+            </div>
+              <!-- Bootstrap Dropdown  For Likes-->
+            <div >
+              <div class="dropdown mt-3 d-inline-block" style="width: 130px;" *ngIf="username.User.username !==  blog.createdBy">
+                <button class="btn btn-primary " type="button" id="dropdownMenuButton1"  aria-expanded="false">
+                  <i class="bi bi-hand-thumbs-up"></i> &nbsp; Likes: 20
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><a class="dropdown-item" href="#">amir</a></li>
+                  <li><a class="dropdown-item" href="#">ali </a></li>
+                  <li><a class="dropdown-item" href="#">asad</a></li>
+                </ul>
+            </div>
+            <!-- Bootstrap Dropdown  For DisLikes-->
+            <div class="dropdown mt-3 d-inline-block" style="width: 160px;" *ngIf="username.User.username !==  blog.createdBy">
+                <button class="btn btn-warning " type="button" id="dropdownMenuButton2"  aria-expanded="false">
+                  <i class="bi bi-hand-thumbs-down"></i> &nbsp; DisLikes: 15                
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                  <li><a class="dropdown-item" href="#">amir</a></li>
+                  <li><a class="dropdown-item" href="#">ali </a></li>
+                  <li><a class="dropdown-item" href="#">asad</a></li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        <div>
+          <ul class="list-group mt-3 mb-3">
+            <li class="list-group-item">
+              <button type="button" class="btn btn-success btn-lg" (click)="dragtComment()">
+                Post Comment
+              </button>
+              <br>
+              <!-- <form action="">
+                <textarea name="comment" id="" cols="30" rows="10" class="from-control mt-2"></textarea><br>
+                <div class="mt-3">
+                  <button class="btn btn-dark btn-sm">Submit Post</button>
+                  <button class="btn btn-danger btn-sm m-2">Cancel</button>
+                </div>
+              </form> -->
+            </li>
+          </ul>
+        </div>
+    </div>
+</div>

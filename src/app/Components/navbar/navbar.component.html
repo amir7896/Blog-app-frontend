@@ -1,0 +1,44 @@
+  <!-- Net Nav -->
+  <nav class="navbar navbar-expand-lg  navbar-dark  sticky-top" style="background-color: 	#615555;">
+    <div class="container-fluid">
+      <a class="navbar-brand" [routerLink]="['/']">BLOG APP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" [routerLink]="['/']">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()"[routerLink]="['dashboard']" >Dashboard</a>
+          </li>
+        </ul>
+        <div class="d-flex">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item" >
+                    <a class="nav-link" *ngIf="authService.loggedIn()" routerLink='profile' >
+                    <span *ngIf="user">Login By {{user.User.username}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="authService.loggedIn()" routerLink='profile'>Profile</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" *ngIf="authService.loggedIn()" routerLink='blog'>Blog</a>
+               </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="!authService.loggedIn()" routerLink='login'>Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" *ngIf="!authService.loggedIn()" routerLink='register'>Register</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" *ngIf="authService.loggedIn()" (click)="loguotUser()"  routerLink='register'>Logout</a>
+              </li>
+              </ul>
+            
+        </div>
+      </div>
+    </div>
+  </nav>
